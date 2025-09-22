@@ -12,4 +12,4 @@ MySQL顯示
 ## **[W2 add and delete](https://github.com/kurakanja/114-1-Database/tree/main/W2)  
 在網頁中進行資料上傳並即時顯示於網頁上，同時可進行修改與刪除，在mySQL後台刷新也可看到檔案  
 網頁顯示  
-<img src="pics/page w2.png" width="700"/>  
+<img src="pics/w2.png" width="700"/>  
