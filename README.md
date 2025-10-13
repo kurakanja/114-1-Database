@@ -5,3 +5,4 @@
 在網頁中進行資料上傳、修改與刪除並即時顯示於網頁上，在mySQL後台刷新也可看到
 網頁顯示  
 <img src="pics/w2.png" width="700"/>  
+## 作業二連結 簡易購物系統:[作業二資料夾](https://github.com/kurakanja/114-1-Database/tree/main/HW2)
