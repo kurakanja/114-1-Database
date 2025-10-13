@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訂單詳情 #{{ details[0].order_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>訂單詳情</h1>
+            <div class="order-info">
+                <p><strong>訂單編號:</strong> #{{ details[0].order_id }}</p>
+                <p><strong>顧客姓名:</strong> {{ details[0].first_name }} {{ details[0].last_name }}</p>
+                <p><strong>顧客 Email:</strong> {{ details[0].email }}</p>
+                <p><strong>訂單日期:</strong> {{ details[0].order_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            </div>
+
+            <h2>購買項目</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>產品名稱</th>
+                        <th>購買數量</th>
+                        <th>當時單價</th>
+                        <th>項目總價</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in details %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ "%.2f"|format(item.price_at_purchase) }}</td>
+                        <td>${{ "%.2f"|format(item.quantity * item.price_at_purchase) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="total-label">訂單總金額</td>
+                        <td class="total-amount">${{ "%.2f"|format(details[0].total_amount) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <a href="{{ url_for('index') }}" class="back-link">返回主頁</a>
+        </div>
+    </div>
+</body>
+</html>
