@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡易購物系統</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>簡易購物系統</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="main-layout">
+            <div class="sidebar">
+                <div class="card">
+                    <h2>新增顧客</h2>
+                    <form action="{{ url_for('add_customer') }}" method="post">
+                        <input type="text" name="first_name" placeholder="姓氏" required>
+                        <input type="text" name="last_name" placeholder="名字" required>
+                        <input type="email" name="email" placeholder="電子郵件" required>
+                        <button type="submit">新增顧客</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>新增產品</h2>
+                    <form action="{{ url_for('add_product') }}" method="post">
+                        <input type="text" name="product_name" placeholder="產品名稱" required>
+                        <input type="number" name="price" step="0.01" placeholder="價格" required>
+                        <input type="number" name="stock_quantity" placeholder="庫存數量" required>
+                        <button type="submit">新增產品</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="card">
+                    <h2>建立新訂單</h2>
+                    <form action="{{ url_for('create_order') }}" method="post">
+                        <label for="customer">選擇顧客:</label>
+                        <select name="customer_id" id="customer" required>
+                            {% for customer in customers %}
+                            <option value="{{ customer.customer_id }}">{{ customer.first_name }} {{ customer.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <h3>選擇商品:</h3>
+                        <div class="product-list">
+                        {% for product in products %}
+                            <div class="product-item">
+                                <label for="quantity_{{ product.product_id }}">
+                                    {{ product.product_name }} - ${{ "%.2f"|format(product.price) }} (庫存: {{ product.stock_quantity }})
+                                </label>
+                                <input type="number" name="quantity_{{ product.product_id }}" id="quantity_{{ product.product_id }}" min="0" value="0">
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <button type="submit">送出訂單</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-display">
+            <div class="card list-card">
+                <h2>現有顧客</h2>
+                <table>
+                    <thead><tr><th>ID</th><th>姓名</th><th>Email</th><th>操作</th></tr></thead>
+                    <tbody>
+                        {% for c in customers %}
+                        <tr>
+                            <td>{{ c.customer_id }}</td>
+                            <td>{{ c.first_name }} {{ c.last_name }}</td>
+                            <td>{{ c.email }}</td>
+                            <td>
+                                <form action="{{ url_for('delete_entity', entity='customer', entity_id=c.customer_id) }}" method="post" onsubmit="return confirm('確定要刪除這位顧客嗎？');">
+                                    <button type="submit" class="delete-btn">刪除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card list-card">
+                <h2>現有產品</h2>
+                <table>
+                     <thead><tr><th>ID</th><th>產品名稱</th><th>價格</th><th>庫存</th><th>操作</th></tr></thead>
+                    <tbody>
+                        {% for p in products %}
+                        <tr>
+                            <td>{{ p.product_id }}</td>
+                            <td>{{ p.product_name }}</td>
+                            <td>${{ "%.2f"|format(p.price) }}</td>
+                            <td>{{ p.stock_quantity }}</td>
+                            <td>
+                                <form action="{{ url_for('delete_entity', entity='product', entity_id=p.product_id) }}" method="post" onsubmit="return confirm('確定要刪除這項產品嗎？');">
+                                    <button type="submit" class="delete-btn">刪除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card list-card full-width">
+            <h2>歷史訂單</h2>
+            <table>
+                <thead><tr><th>訂單ID</th><th>顧客</th><th>訂單日期</th><th>總金額</th><th>操作</th></tr></thead>
+                <tbody>
+                    {% for o in orders %}
+                    <tr>
+                        <td><a href="{{ url_for('order_details', order_id=o.order_id) }}">#{{ o.order_id }}</a></td>
+                        <td>{{ o.first_name or 'N/A' }} {{ o.last_name or '' }}</td>
+                        <td>{{ o.order_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>${{ "%.2f"|format(o.total_amount) }}</td>
+                        <td>
+                             <form action="{{ url_for('delete_entity', entity='order', entity_id=o.order_id) }}" method="post" onsubmit="return confirm('確定要刪除這筆訂單嗎？');">
+                                <a href="{{ url_for('order_details', order_id=o.order_id) }}" class="view-btn">查看詳情</a>
+                                <button type="submit" class="delete-btn">刪除</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
