@@ -9,7 +9,7 @@
 網頁顯示  
 <img src="pics/購物系統1.png" width="700"/>  
 <img src="pics/購物系統2.png" width="700"/> 
-## 作業三連結 簡易購物系統:[作業三資料夾](https://github.com/kurakanja/114-1-Database/tree/main/HW3) [作業三影片](https://youtu.be/9RBO2v2-Y5k) [作業三onblender](https://one14-1-database-piv1.onrender.com/)  
+## 作業三連結 記事簿:[作業三資料夾](https://github.com/kurakanja/114-1-Database/tree/main/HW3) [作業三影片](https://youtu.be/9RBO2v2-Y5k) [作業三onblender](https://one14-1-database-piv1.onrender.com/)  
 1.使用者帳號系統  
 #可以註冊新帳號、登入、登出。  
 #密碼有加密儲存，確保安全性。  
