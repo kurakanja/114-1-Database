@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>修改紀錄</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        input, textarea { width: 100%; margin: 5px 0; }
+        button { padding: 5px 10px; }
+    </style>
+</head>
+<body>
+    <h1>修改紀錄</h1>
+
+    <form method="post">
+        <label>日期 (YYYY-MM-DD)</label><br>
+        <input type="text" name="date" value="{{ record.date }}" required><br>
+
+        <label>事項</label><br>
+        <input type="text" name="title" value="{{ record.title }}" required><br>
+
+        <label>事項細節</label><br>
+        <textarea name="details" rows="3">{{ record.details }}</textarea><br>
+
+        <label>簽名</label><br>
+        <input type="text" name="signature" value="{{ record.signature }}"><br>
+
+        <button type="submit">儲存修改</button>
+        <a href="{{ url_for('index') }}">返回</a>
+    </form>
+</body>
+</html>

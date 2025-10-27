@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>登入</title>
+</head>
+<body>
+  <h1>登入聯絡本</h1>
+  <form method="post">
+    <label>帳號：</label><br>
+    <input type="text" name="username" required><br>
+    <label>密碼：</label><br>
+    <input type="password" name="password" required><br><br>
+    <button type="submit">登入</button>
+  </form>
+  <p>還沒有帳號？<a href="{{ url_for('register') }}">註冊</a></p>
+  {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+</body>
+</html>
